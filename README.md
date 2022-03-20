@@ -3,7 +3,7 @@
 In this app, you can add places and store them.   
 
 ![main screen](https://github.com/ConnorWuProjects/HappyPlaces/blob/master/screenshots/main%20screen.png)   
-After you press floating action button, you can fill up details of the place you want to save.  
+After you press the floating action button, you can fill up details of the place you want to save.  
 
 ![add happy place](https://github.com/ConnorWuProjects/HappyPlaces/blob/master/screenshots/add%20happy%20place.png)  
 Press date, then you can choose a date that will show on the column.  
