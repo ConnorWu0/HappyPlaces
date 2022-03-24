@@ -13,23 +13,23 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
-    private var binding:ActivityMapBinding? = null
+    private lateinit var binding:ActivityMapBinding
     private var myHappyPlaceDetails: HappyPlaceEntity? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMapBinding.inflate(layoutInflater)
-        setContentView(binding?.root)
+        setContentView(binding.root)
 
         if (intent.hasExtra(MainActivity.EXTRA_PLACE_DETAILS)){
             myHappyPlaceDetails = intent.getSerializableExtra(MainActivity.EXTRA_PLACE_DETAILS) as HappyPlaceEntity
         }
 
         if (myHappyPlaceDetails != null){
-            setSupportActionBar(binding?.toolbarMap)
+            setSupportActionBar(binding.toolbarMap)
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
             supportActionBar!!.title = myHappyPlaceDetails!!.title
-            binding?.toolbarMap?.setNavigationOnClickListener {
+            binding.toolbarMap.setNavigationOnClickListener {
                 onBackPressed()
             }
             val supportMapFragment: SupportMapFragment =

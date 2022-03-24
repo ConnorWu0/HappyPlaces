@@ -52,7 +52,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class AddHappyPlaceActivity : AppCompatActivity(),View.OnClickListener {
-    private var binding: ActivityAddHappyPlaceBinding? = null
+    private lateinit var binding: ActivityAddHappyPlaceBinding
 
     private var myCalendar = Calendar.getInstance()
     private lateinit var dateSetListener: DatePickerDialog.OnDateSetListener
@@ -72,13 +72,13 @@ class AddHappyPlaceActivity : AppCompatActivity(),View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddHappyPlaceBinding.inflate(layoutInflater)
-        setContentView(binding?.root)
+        setContentView(binding.root)
 
 
 
-        setSupportActionBar(binding?.toolbarAddPlace)
+        setSupportActionBar(binding.toolbarAddPlace)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        binding?.toolbarAddPlace?.setNavigationOnClickListener {
+        binding.toolbarAddPlace.setNavigationOnClickListener {
             onBackPressed()
         }
 
@@ -102,26 +102,26 @@ class AddHappyPlaceActivity : AppCompatActivity(),View.OnClickListener {
 
         if (myHappyPlaceDetails != null){
             supportActionBar?.title = "Edit Happy Place"
-            binding?.etTitle?.setText(myHappyPlaceDetails!!.title)
-            binding?.etDescription?.setText(myHappyPlaceDetails!!.description)
-            binding?.etDate?.setText(myHappyPlaceDetails!!.date)
-            binding?.etLocation?.setText(myHappyPlaceDetails!!.location)
+            binding.etTitle.setText(myHappyPlaceDetails!!.title)
+            binding.etDescription.setText(myHappyPlaceDetails!!.description)
+            binding.etDate.setText(myHappyPlaceDetails!!.date)
+            binding.etLocation.setText(myHappyPlaceDetails!!.location)
             myLatitude = myHappyPlaceDetails!!.latitude
             myLongitude = myHappyPlaceDetails!!.longitude
 
             saveImageToInternalStorage = Uri.parse(myHappyPlaceDetails!!.image)
-            binding?.ivPlaceImage?.setImageURI(saveImageToInternalStorage)
-            binding?.btnSave?.text = getString(R.string.update)
+            binding.ivPlaceImage.setImageURI(saveImageToInternalStorage)
+            binding.btnSave.text = getString(R.string.update)
         }
 
 
-        binding?.etDate?.setOnClickListener(this)
-        binding?.tvAddImage?.setOnClickListener(this)
+        binding.etDate.setOnClickListener(this)
+        binding.tvAddImage.setOnClickListener(this)
         registerOnActivityForResult()
-        binding?.btnSave?.setOnClickListener(this)
+        binding.btnSave.setOnClickListener(this)
 
-        binding?.etLocation?.setOnClickListener(this)
-        binding?.tvSelectCurrentLocation?.setOnClickListener(this)
+        binding.etLocation.setOnClickListener(this)
+        binding.tvSelectCurrentLocation.setOnClickListener(this)
     }
 
     private fun isLocationEnabled(): Boolean{
@@ -131,11 +131,11 @@ class AddHappyPlaceActivity : AppCompatActivity(),View.OnClickListener {
     }
 
     private fun addRecord(happyPlaceDao: HappyPlaceDao){
-        val title = binding?.etTitle?.text.toString()
+        val title = binding.etTitle.text.toString()
         val image = saveImageToInternalStorage.toString()
-        val description = binding?.etDescription?.text.toString()
-        val date = binding?.etDate?.text.toString()
-        val location = binding?.etLocation?.text.toString()
+        val description = binding.etDescription.text.toString()
+        val date = binding.etDate.text.toString()
+        val location = binding.etLocation.text.toString()
         if (title.isNotEmpty()&&image.isNotEmpty()&&description.isNotEmpty()&&date.isNotEmpty()
             &&location.isNotEmpty()){
             lifecycleScope.launch {
@@ -144,10 +144,10 @@ class AddHappyPlaceActivity : AppCompatActivity(),View.OnClickListener {
                 date = date, location = location, latitude = myLatitude, longitude = myLongitude)
                 )
                 Toast.makeText(applicationContext,"Record saved",Toast.LENGTH_LONG).show()
-                binding?.etTitle?.text?.clear()
-                binding?.etDescription?.text?.clear()
-                binding?.etDate?.text?.clear()
-                binding?.etLocation?.text?.clear()
+                binding.etTitle.text?.clear()
+                binding.etDescription.text?.clear()
+                binding.etDate.text?.clear()
+                binding.etLocation.text?.clear()
             }
         }
     }
@@ -180,7 +180,7 @@ class AddHappyPlaceActivity : AppCompatActivity(),View.OnClickListener {
                 GetAddressFromLatLng.AddressListener {
                 override fun onAddressFound(address: String?) {
                     Log.e("Address ::", "" + address)
-                    binding?.etLocation?.setText(address)
+                    binding.etLocation.setText(address)
                 }
 
                 override fun onError() {
@@ -222,18 +222,18 @@ class AddHappyPlaceActivity : AppCompatActivity(),View.OnClickListener {
             }
             R.id.btn_save ->{
                 when{
-                    binding?.etTitle?.text?.isEmpty() == true -> {
+                    binding.etTitle.text?.isEmpty() == true -> {
                         Toast.makeText(this, "Please enter title", Toast.LENGTH_SHORT).show()
                     }
-                    binding?.etDescription?.text?.isEmpty() == true -> {
+                    binding.etDescription.text?.isEmpty() == true -> {
                         Toast.makeText(this, "Please enter description", Toast.LENGTH_SHORT)
                             .show()
                     }
-                    binding?.etDate?.text?.isEmpty() == true -> {
+                    binding.etDate.text?.isEmpty() == true -> {
                         Toast.makeText(this, "Please enter date", Toast.LENGTH_SHORT)
                             .show()
                     }
-                    binding?.etLocation?.text?.isEmpty() == true -> {
+                    binding.etLocation.text?.isEmpty() == true -> {
                         Toast.makeText(this, "Please enter location", Toast.LENGTH_SHORT)
                             .show()
                     }
@@ -297,11 +297,11 @@ class AddHappyPlaceActivity : AppCompatActivity(),View.OnClickListener {
 
 
     private fun updateRecord(id: Int, happyPlaceDao: HappyPlaceDao){
-        val title = binding?.etTitle?.text.toString()
+        val title = binding.etTitle.text.toString()
         val image = saveImageToInternalStorage.toString()
-        val description = binding?.etDescription?.text.toString()
-        val date = binding?.etDate?.text.toString()
-        val location = binding?.etLocation?.text.toString()
+        val description = binding.etDescription.text.toString()
+        val date = binding.etDate.text.toString()
+        val location = binding.etLocation.text.toString()
         lifecycleScope.launch {
             happyPlaceDao.update(HappyPlaceEntity(id,title,image,description,date,location,myLatitude,myLongitude))
             Toast.makeText(applicationContext,"Record Updated",
@@ -351,7 +351,7 @@ class AddHappyPlaceActivity : AppCompatActivity(),View.OnClickListener {
     private fun updateDateInView(){
         val myFormat = "yyyy.MM.dd"
         val sdf = SimpleDateFormat(myFormat, Locale.getDefault())
-        binding?.etDate?.setText(sdf.format(myCalendar.time).toString())
+        binding.etDate.setText(sdf.format(myCalendar.time).toString())
     }
 
     @Suppress("DEPRECATION")
@@ -375,7 +375,7 @@ class AddHappyPlaceActivity : AppCompatActivity(),View.OnClickListener {
                             saveImageToInternalStorage = saveImageToInternalStorage(selectedImageBitmap)
                             Log.e("Saved Image : ", "Path :: $saveImageToInternalStorage")
 
-                            binding?.ivPlaceImage?.setImageURI(contentUri)
+                            binding.ivPlaceImage.setImageURI(contentUri)
                         } catch (e: IOException) {
                             e.printStackTrace()
                             Toast.makeText(
@@ -396,7 +396,7 @@ class AddHappyPlaceActivity : AppCompatActivity(),View.OnClickListener {
                     val thumbNail: Bitmap = data!!.extras?.get("data") as Bitmap
                     saveImageToInternalStorage = saveImageToInternalStorage(thumbNail)
                     Log.e("Saved Image : ", "Path :: $saveImageToInternalStorage")
-                    binding?.ivPlaceImage?.setImageBitmap(thumbNail)
+                    binding.ivPlaceImage.setImageBitmap(thumbNail)
                 }
             }
 
@@ -404,7 +404,7 @@ class AddHappyPlaceActivity : AppCompatActivity(),View.OnClickListener {
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 val place: Place = Autocomplete.getPlaceFromIntent(data!!)
-                binding?.etLocation?.setText(place.address)
+                binding.etLocation.setText(place.address)
                 myLatitude = place.latLng!!.latitude
                 myLongitude = place.latLng!!.longitude
             }
@@ -454,8 +454,4 @@ class AddHappyPlaceActivity : AppCompatActivity(),View.OnClickListener {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        binding = null
-    }
 }

@@ -21,14 +21,14 @@ import pl.kitek.rvswipetodelete.SwipeToEditCallback
 
 class MainActivity : AppCompatActivity() {
 
-    private var binding: ActivityMainBinding? = null
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding?.root)
+        setContentView(binding.root)
 
-        binding?.fabAddHappyPlace?.setOnClickListener {
+        binding.fabAddHappyPlace.setOnClickListener {
             val intent = Intent(this, AddHappyPlaceActivity::class.java)
             startActivity(intent)
         }
@@ -55,8 +55,8 @@ class MainActivity : AppCompatActivity() {
             happyPlaceDao.fetchAllHappyPlaces().collect { allHappyPlacesList ->
                 if (allHappyPlacesList.isNotEmpty()){
 
-                    binding?.rvHappyPlacesList?.visibility = View.VISIBLE
-                    binding?.tvNoRecordAvailable?.visibility = View.GONE
+                    binding.rvHappyPlacesList.visibility = View.VISIBLE
+                    binding.tvNoRecordAvailable.visibility = View.GONE
 
                     val happyPlacesList = mutableListOf<HappyPlaceEntity>()
 
@@ -65,13 +65,13 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     val happyPlacesAdapter = HappyPlacesAdapter(this@MainActivity,happyPlacesList)
-                    binding?.rvHappyPlacesList?.adapter = happyPlacesAdapter
+                    binding.rvHappyPlacesList.adapter = happyPlacesAdapter
 
                     setupHappyPlacesRecyclerView(happyPlacesList)
 
                 }else{
-                    binding?.rvHappyPlacesList?.visibility = View.GONE
-                    binding?.tvNoRecordAvailable?.visibility = View.VISIBLE
+                    binding.rvHappyPlacesList.visibility = View.GONE
+                    binding.tvNoRecordAvailable.visibility = View.VISIBLE
                 }
             }
         }
@@ -79,9 +79,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupHappyPlacesRecyclerView(happyPlacesList: MutableList<HappyPlaceEntity>){
         val happyPlacesAdapter = HappyPlacesAdapter(this,happyPlacesList)
-        binding?.rvHappyPlacesList?.adapter = happyPlacesAdapter
-        binding?.rvHappyPlacesList?.layoutManager = LinearLayoutManager(this@MainActivity)
-        binding?.rvHappyPlacesList?.setHasFixedSize(true)
+        binding.rvHappyPlacesList.adapter = happyPlacesAdapter
+        binding.rvHappyPlacesList.layoutManager = LinearLayoutManager(this@MainActivity)
+        binding.rvHappyPlacesList.setHasFixedSize(true)
 
         happyPlacesAdapter.setOnClickListener(object : HappyPlacesAdapter.OnClickListener {
             override fun onClick(position: Int, happyPlaceEntity: HappyPlaceEntity) {
@@ -93,19 +93,19 @@ class MainActivity : AppCompatActivity() {
 
         val editSwipeHandler = object : SwipeToEditCallback(this){
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val adapter = binding?.rvHappyPlacesList?.adapter as HappyPlacesAdapter
+                val adapter = binding.rvHappyPlacesList.adapter as HappyPlacesAdapter
                 adapter.notifyEditItem(this@MainActivity,viewHolder.adapterPosition,
                     ADD_PLACE_ACTIVITY_REQUEST_CODE
                 )
             }
         }
         val editItemTouchHelper = ItemTouchHelper(editSwipeHandler)
-        editItemTouchHelper.attachToRecyclerView(binding?.rvHappyPlacesList)
+        editItemTouchHelper.attachToRecyclerView(binding.rvHappyPlacesList)
 
         val deleteSwipeHandler = object : SwipeToDeleteCallback(this) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 
-                val adapter = binding?.rvHappyPlacesList?.adapter as HappyPlacesAdapter
+                val adapter = binding.rvHappyPlacesList.adapter as HappyPlacesAdapter
                 //deleteRecord(happyPlacesList[viewHolder.adapterPosition].id)
                 //adapter.removeAt(viewHolder.adapterPosition)
                 fun alertDialogForDeletePlace(title: String) {
@@ -138,15 +138,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
         val deleteItemTouchHelper = ItemTouchHelper(deleteSwipeHandler)
-        deleteItemTouchHelper.attachToRecyclerView(binding?.rvHappyPlacesList)
+        deleteItemTouchHelper.attachToRecyclerView(binding.rvHappyPlacesList)
     }
 
 
 
-    override fun onDestroy() {
-        super.onDestroy()
-        binding = null
-    }
     companion object{
         private const val ADD_PLACE_ACTIVITY_REQUEST_CODE = 1
         var EXTRA_PLACE_DETAILS = "extra_place_details"
