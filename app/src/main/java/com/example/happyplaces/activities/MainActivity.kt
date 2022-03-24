@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -105,8 +106,35 @@ class MainActivity : AppCompatActivity() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 
                 val adapter = binding?.rvHappyPlacesList?.adapter as HappyPlacesAdapter
-                deleteRecord(happyPlacesList[viewHolder.adapterPosition].id)
-                adapter.removeAt(viewHolder.adapterPosition)
+                //deleteRecord(happyPlacesList[viewHolder.adapterPosition].id)
+                //adapter.removeAt(viewHolder.adapterPosition)
+                fun alertDialogForDeletePlace(title: String) {
+                    val builder = AlertDialog.Builder(this@MainActivity)
+                    //set title for alert dialog
+                    builder.setTitle("Alert")
+                    //set message for alert dialog
+                    builder.setMessage("Are you sure you want to delete $title?")
+                    builder.setIcon(android.R.drawable.ic_dialog_alert)
+                    //performing positive action
+                    builder.setPositiveButton("Yes") { dialogInterface, _ ->
+                        dialogInterface.dismiss() // Dialog will be dismissed
+
+                        deleteRecord(happyPlacesList[viewHolder.adapterPosition].id)
+                        adapter.removeAt(viewHolder.adapterPosition)
+
+                    }
+
+                    //performing negative action
+                    builder.setNegativeButton("No") { dialogInterface, _ ->
+                        dialogInterface.dismiss() // Dialog will be dismissed
+                    }
+                    // Create the AlertDialog
+                    val alertDialog: AlertDialog = builder.create()
+                    // Set other dialog properties
+                    alertDialog.setCancelable(false) // Will not allow user to cancel after clicking on remaining screen area.
+                    alertDialog.show()  // show the dialog to UI
+                }
+                alertDialogForDeletePlace(happyPlacesList[viewHolder.adapterPosition].title)
             }
         }
         val deleteItemTouchHelper = ItemTouchHelper(deleteSwipeHandler)
