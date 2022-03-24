@@ -10,9 +10,14 @@ Press date, then you can choose a date that will show on the column.
 ![select a date](https://github.com/ConnorWuProjects/HappyPlaces/blob/master/screenshots/select%20a%20date.png)  
 Press location, you can type keywords to select a location, or you can press SELECT CURRENT LOCATION, then the column of location will be filled up wth the address of your current location.  
 ![search location](https://github.com/ConnorWuProjects/HappyPlaces/blob/master/screenshots/search%20location.png)  
-After saved a location, it will show on the list.  
+After you save a location, it will show on the list.  
 ![After saved a place](https://github.com/ConnorWuProjects/HappyPlaces/blob/master/screenshots/after%20saved%20a%20place.png)  
 Press the item on the list, the details will come out.  
 ![details](https://github.com/ConnorWuProjects/HappyPlaces/blob/master/screenshots/details.png)  
 Press VIEW ON MAP, then you can see the location on the map.  
 ![view on map](https://github.com/ConnorWuProjects/HappyPlaces/blob/master/screenshots/view%20on%20map.png)  
+If you swipe to the right, you can edit the information of the place.  
+![swipe to edit](https://github.com/ConnorWuProjects/HappyPlaces/blob/master/screenshots/Swipe%20to%20edit.png)  
+![Edit happy place](https://github.com/ConnorWuProjects/HappyPlaces/blob/master/screenshots/Edit%20happy%20place.png)  
+If you swipe to the left, then you can delete the place.  
+![Swipe to delete](https://github.com/ConnorWuProjects/HappyPlaces/blob/master/screenshots/Swipe%20to%20delete.png)
